@@ -45,8 +45,6 @@ def triangle_is_in_set(triangle,forbiddet_segment_set):
     sub_test_2 = (triangle[0], triangle[2]) in forbiddet_segment_set or (triangle[2], triangle[0]) in forbiddet_segment_set
     sub_test_3 = (triangle[1], triangle[2]) in forbiddet_segment_set or (triangle[2], triangle[1]) in forbiddet_segment_set
 
-    # print("tests:",sub_test_1,sub_test_2,sub_test_3)
-
     return (sub_test_1 and sub_test_2 and sub_test_3)
 
 
@@ -84,9 +82,6 @@ def make_obj_file(geometry_filename, vertices, faces, texture_coordinates, mater
     material_file.write("illum 2\n")
     material_file.write("map_Ka texture.jpg\n")
     material_file.write("map_Kd texture.jpg\n")
-
-
-
 
 def nothing(x):
     pass
@@ -155,10 +150,6 @@ def mouseCallbackBlended(event,x,y,flags,param):
             else:
                 rectList.append(MyRectangle())
                 rectList[lastElement+1].addPoint(point_to_add)
-
-
-
-
 
 def main():
 
@@ -231,8 +222,8 @@ def main():
 
         if pressedKey == ord('t'):  # key t
 
-            #transformMatrix = cv2.getAffineTransform(corners[corner_offset:corner_offset+3],depthTransformPoints)
-            transformMatrix = cv2.getAffineTransform(corners[corner_offset:corner_offset+3],np.array([[286, 13],[107, 15],[338, 88]],dtype=np.float32))
+            transformMatrix = cv2.getAffineTransform(corners[corner_offset:corner_offset+3],depthTransformPoints)
+            #transformMatrix = cv2.getAffineTransform(corners[corner_offset:corner_offset+3],np.array([[286, 13],[107, 15],[338, 88]],dtype=np.float32))
 
             map_x = np.empty_like(intensity_img, dtype=np.float32)
             map_y = np.empty_like(intensity_img, dtype=np.float32)
@@ -260,44 +251,6 @@ def main():
             print("contour shape",contour.shape)
             cv2.imshow(depthWindow,contour)
             print("transformed depth size:", depth_img_transformed.shape, "intensity img size", intensity_img.shape)
-
-        if pressedKey == ord('a'):
-            try:
-                # rectList.append(MyRectangle())
-                # rectList[0].addPoint([206, 110, 177])
-                # rectList[0].addPoint([21, 117, 167])
-                # rectList[0].addPoint([27, 361, 169])
-                # rectList[0].addPoint([216, 369, 179])
-                # rectList.append(MyRectangle())
-                # rectList[1].addPoint([134, 226, 35])
-                # rectList[1].addPoint([119, 226, 39])
-                # rectList[1].addPoint([120, 262, 39])
-                # rectList[1].addPoint([131, 262, 35])
-                # rectList.append(MyRectangle())
-                # rectList[2].addPoint([139, 185, 152])
-                # rectList[2].addPoint([69, 185, 150])
-                # rectList[2].addPoint([69, 292, 151])
-                # rectList[2].addPoint([143, 292, 153])
-
-                for cnt in contours_found:
-                    if cv2.contourArea(cnt) > 200:
-                        rect = cv2.minAreaRect(cnt)
-                        box = cv2.boxPoints(rect)
-                        box = np.int0(box)
-                        lengthRL = len(rectList)
-                        rectList.append(MyRectangle())
-                        for point in box:
-                            if point[0] < depth_img_transformed.shape[1] and point[1] < depth_img_transformed.shape[0]:
-                                print(depth_img_transformed.shape)
-                                print(point)
-                                z = depth_img_transformed[point[1], point[0]]
-                                point_to_add = [point[1], point[0], z]
-                                rectList[lengthRL].addPoint(point_to_add)
-                print("points added")
-            except Exception as ex:
-                 print(ex)
-                 exit(-33)
-
 
         if pressedKey == ord('b'):
             blend = cv2.getTrackbarPos("blend", blendedWindow)
@@ -420,5 +373,3 @@ def main():
 
 if __name__== "__main__":
   main()
-
-
